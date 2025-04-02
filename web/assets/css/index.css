@@ -1,0 +1,48 @@
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.carousel-caption h2,
+.carousel-caption p {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.carousel-caption a {
+    background: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.carousel-caption a:hover {
+    background: #0056b3;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.social-icon i {
+    font-size: 20px;
+}
+
+.social-icon:hover {
+    background-color: #f8f9fa;
+}
+
+.slider-container {
+    max-width: 900px;
+    margin: auto;
+}

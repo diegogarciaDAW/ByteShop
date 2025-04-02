@@ -1,0 +1,38 @@
+.card-contact {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 30px;
+    background-color: #f8f9fa;
+}
+.card-contact .singup {
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.inputBox input, .inputBox textarea {
+    border-radius: 8px;
+}
+.btn-contact {
+    background-color: #6225E6;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    width: 100%;
+    padding: 12px;
+    transition: background-color 0.3s ease;
+}
+.btn-contact:hover {
+    background-color: #FBC638;
+}
+.inputBox input:focus, .inputBox textarea:focus {
+    border-color: #6225E6;
+    box-shadow: 0 0 5px rgba(98, 37, 230, 0.5);
+}
+.inputBox textarea {
+    height: 200px;
+    resize: vertical;
+    width: 100%;
+    padding: 10px;
+}

@@ -1,0 +1,66 @@
+.typewriter {
+    position: relative;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #537fff;
+    margin-top: 30px;
+}
+
+.typewriter .slide {
+    width: 92px;
+    height: 20px;
+    border-radius: 3px;
+    margin-left: 14px;
+    transform: translateX(14px);
+    background: linear-gradient(#5C86FF, #275EFE);
+    animation: slide05 3s ease infinite;
+}
+
+.typewriter .keyboard {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #275EFE;
+}
+
+.card-contact {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: #537fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #275efe;
+}
+
+.alert-custom {
+    background-color: #FBC638;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
