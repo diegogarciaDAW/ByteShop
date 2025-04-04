@@ -29,8 +29,10 @@
         </div>
 
         <%
+            // Obtener parámetros pasados desde el formulario
             String rq = request.getParameter("idPedido");
             String totalParam = request.getParameter("total");
+
             if (rq == null || rq.isEmpty() || totalParam == null || totalParam.isEmpty()) {
                 out.print("<script>alert('Error: Datos insuficientes.'); window.history.back();</script>");
                 return;
@@ -44,6 +46,7 @@
             boolean hayStock = true;
 
             try {
+                // Conectar a la base de datos
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
 
@@ -67,6 +70,7 @@
                         out.print("<script>alert('No hay suficiente stock. Disponibles: " + cantidadDisponible + "'); window.location.href = '../productos.jsp';</script>");
                         break;
                     } else {
+                        // Actualizar el stock en la base de datos
                         PreparedStatement updateStock = miConexion.prepareStatement("UPDATE productos SET cantidadDisponible = cantidadDisponible - ? WHERE id = ?");
                         updateStock.setInt(1, cantidadComprado);
                         updateStock.setInt(2, idPr);
@@ -78,45 +82,24 @@
                 stmt.close();
 
                 if (hayStock) {
-                    // Obtener saldo del usuario
-                    PreparedStatement saldoStmt = miConexion.prepareStatement("SELECT saldo FROM usuarios WHERE id = (SELECT id FROM pedidos WHERE CodigoPedido = ?)");
-                    saldoStmt.setInt(1, id);
-                    ResultSet saldoResult = saldoStmt.executeQuery();
+                    // Cambiar el estado del pedido a "pagado" (estado 1)
+                    PreparedStatement updatePedido = miConexion.prepareStatement("UPDATE pedidos SET estado = 1 WHERE CodigoPedido = ?");
+                    updatePedido.setInt(1, id);
+                    int filasActualizadas = updatePedido.executeUpdate();
+                    updatePedido.close();
 
-                    if (saldoResult.next()) {
-                        double saldoUsuario = saldoResult.getDouble("saldo");
-                        if (saldoUsuario >= totalCompra) {
-                            // Descontar saldo
-                            PreparedStatement updateSaldo = miConexion.prepareStatement("UPDATE usuarios SET saldo = saldo - ? WHERE id = (SELECT id FROM pedidos WHERE CodigoPedido = ?)");
-                            updateSaldo.setDouble(1, totalCompra);
-                            updateSaldo.setInt(2, id);
-                            updateSaldo.executeUpdate();
-                            updateSaldo.close();
-
-                            // Cambiar estado del pedido
-                            PreparedStatement updatePedido = miConexion.prepareStatement("UPDATE pedidos SET estado = 1 WHERE CodigoPedido = ?");
-                            updatePedido.setInt(1, id);
-                            int filasActualizadas = updatePedido.executeUpdate();
-                            updatePedido.close();
-
-                            if (filasActualizadas > 0) {
+                    if (filasActualizadas > 0) {
         %>
         <script>
-            console.log("Pedido actualizado correctamente. Redirigiendo...");
+            console.log("Pedido procesado correctamente. Redirigiendo...");
             setTimeout(function () {
                 window.location.href = "../verPedidos.jsp";
             }, 2000);
         </script>
         <%
-                            } else {
-                                out.print("<script>alert('Error al actualizar pedido.'); window.location.href = '../productos.jsp';</script>");
-                            }
-                        } else {
-                            out.print("<script>alert('Saldo insuficiente para completar la compra.'); window.location.href = '../productos.jsp';</script>");
-                        }
+                    } else {
+                        out.print("<script>alert('Error al actualizar estado del pedido.'); window.location.href = '../productos.jsp';</script>");
                     }
-                    saldoResult.close();
-                    saldoStmt.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -93,6 +93,7 @@
                         stmt2.close();
                         miConexion.close();
                     %>
+
                 </div>
 
                 <!-- Sección de resumen del carrito -->
@@ -120,7 +121,15 @@
                         <p class="fs-5">Mano de obra: <span class="fw-bold text-warning">16€</span></p>
                         <hr>
                         <h5 class="fs-4">Total: <span class="fw-bold text-danger"><%= precioProductos + 16%>€</span></h5>
-                        <button class="btn btn-success w-100 mt-3" onclick="location.href = 'pagesJSP/enviarPedido.jsp?idPedido=<%= idDP%>&total=<%= precioProductos + 16%>'"> ✅ Confirmar Pedido</button>
+
+                        <form action="crearPago" method="post">
+                            <input type="hidden" name="idPedido" value="<%= idDP%>">
+                            <input type="hidden" name="total" value="<%= precioProductos + 16%>">
+                            <button type="submit" class="btn btn-success w-100 mt-3"> ✅ Pagar con Stripe</button>
+                        </form>
+
+
+
                     </div>
                 </div>
             </div>

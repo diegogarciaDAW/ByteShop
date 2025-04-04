@@ -102,6 +102,14 @@
                     <file>${file.reference.txw2-2.3.1.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library dirs="200">
+                    <file>${file.reference.gson-2.10.1.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.stripe-java-29.0.0.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
@@ -111,5 +119,8 @@
                 <root id="test.src.dir" name="Test Packages"/>
             </test-roots>
         </data>
+        <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
+            <definitions>.\lib\nblibraries.properties</definitions>
+        </libraries>
     </configuration>
 </project>
