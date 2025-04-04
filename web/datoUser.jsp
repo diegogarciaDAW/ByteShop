@@ -50,7 +50,7 @@
                     <tr><th class="table-primary">Nombre de Usuario</th><td><%= rs.getString("user")%></td></tr>
                     <tr><th class="table-primary">Dirección</th><td><%= rs.getString("direccion")%></td></tr>
                     <tr><th class="table-primary">Fecha de Nacimiento</th><td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("FechadeNacimiento"))%></td></tr>
-                    <tr><th class="table-primary">Email</th><td><%= rs.getString("email")%>€</td></tr>
+                    <tr><th class="table-primary">Email</th><td><%= rs.getString("email")%></td></tr>
                             <%
                                 int rol = rs.getInt("Rol");
                                 String rolTexto = (rol == 1) ? "Administrador" : (rol == 2) ? "Gestor" : "Cliente";
