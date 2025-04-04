@@ -45,18 +45,19 @@
                         <input type="text" name="direccion" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Fecha de Nacimiento</label>
-                        <input type="date" name="fechaNac" class="form-control" required>
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+
                     </div>
                     <div class="row g-2">
                         <div class="col-6">
                             <label class="form-label">Usuario</label>
-                            <input type="text" name="user" id="user" class="form-control" required onkeyup="checkUsernameAvailability()">
+                            <input type="text" name="user" id="user" class="form-control" required">
                             <div id="availabilityMessage" class="availability-message"></div>
                         </div>
                         <div class="col-6">
-                            <label class="form-label">Saldo</label>
-                            <input type="number" name="saldo" step="0.01" class="form-control" required>
+                            <label class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" name="fechaNac" class="form-control" required>
                         </div>
                     </div>
                     <div class="mb-3">

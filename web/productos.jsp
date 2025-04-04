@@ -16,7 +16,7 @@
     boolean isAjax = "true".equals(request.getParameter("ajax"));
     String searchQuery = request.getParameter("search");
 
-    String query = "SELECT imagen, id, Nombre, Descripcion, Precio, nombreCategoria "
+    String query = "SELECT imagen, id, Nombre, Descripcion, Precio, nombreCategoria, CantidadDisponible "
             + "FROM productos, categoria "
             + "WHERE Productos.categoria = Categoria.categoria";
 
@@ -77,6 +77,9 @@
                         Blob b = rs.getBlob("imagen");
                         byte[] bdata = b.getBytes(1, (int) b.length());
                         String imageBase64 = Base64.getEncoder().encodeToString(bdata);
+
+                        int stock = rs.getInt("CantidadDisponible");
+                        boolean hayStock = stock > 0;
                 %>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
@@ -85,8 +88,10 @@
                             <h5 class="card-title"><%= new String(rs.getString("Nombre").getBytes("ISO-8859-1"), "UTF-8")%></h5>
                             <p class="card-text"><%= new String(rs.getString("Descripcion").getBytes("ISO-8859-1"), "UTF-8")%></p>
                             <p class="text-danger text-center"><b>Precio:</b> <%= rs.getDouble("Precio")%>€</p>
-                            <button class="btn btn-primary w-100 mt-auto add-to-cart" data-id="<%= rs.getInt("id")%>">
-                                <i class="fa-solid fa-cart-shopping"></i> Agregar
+                            <button class="btn btn-primary w-100 mt-auto add-to-cart" data-id="<%= rs.getInt("id")%>" 
+                                <%= hayStock ? "" : "disabled"%>>
+                                <i class="fa-solid fa-cart-shopping"></i> 
+                                <%= hayStock ? "Agregar" : "Sin stock"%>
                             </button>
                         </div>
                     </div>

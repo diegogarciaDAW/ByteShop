@@ -28,7 +28,7 @@
             <div class="header-container">
                 <h1>Gestión de Usuarios</h1>
                 <!-- Botón de creación de cuenta -->
-                <a href="CrearCuenta.jsp?id=al" class="cta" title="Crear nueva cuenta">+</a>
+                <a href="crearCuenta.jsp?id=al" class="cta" title="Crear nueva cuenta">+</a>
             </div>
 
             <!-- Tabla de usuarios -->

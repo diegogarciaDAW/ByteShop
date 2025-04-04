@@ -27,12 +27,12 @@
                         String query;
                         String st = request.getParameter("id");
                         if (st == null) {
-                            query = "SELECT usuarios.Nombre, usuarios.Apellido, usuarios.FechadeNacimiento, usuarios.direccion, usuarios.saldo, login.user, login.Rol "
+                            query = "SELECT usuarios.Nombre, usuarios.Apellido, usuarios.FechadeNacimiento, usuarios.direccion, usuarios.email, login.user, login.Rol "
                                     + "FROM usuarios "
                                     + "JOIN login ON usuarios.id = login.info "
                                     + "WHERE login.idEstado = 1 LIMIT 1";
                         } else {
-                            query = "SELECT usuarios.Nombre, usuarios.Apellido, usuarios.FechadeNacimiento, usuarios.direccion, usuarios.saldo, login.user, login.Rol "
+                            query = "SELECT usuarios.Nombre, usuarios.Apellido, usuarios.FechadeNacimiento, usuarios.direccion, usuarios.email, login.user, login.Rol "
                                     + "FROM usuarios "
                                     + "JOIN login ON usuarios.id = login.info "
                                     + "WHERE login.id = " + Integer.parseInt(st) + " LIMIT 1";
@@ -50,7 +50,7 @@
                     <tr><th class="table-primary">Nombre de Usuario</th><td><%= rs.getString("user")%></td></tr>
                     <tr><th class="table-primary">Dirección</th><td><%= rs.getString("direccion")%></td></tr>
                     <tr><th class="table-primary">Fecha de Nacimiento</th><td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("FechadeNacimiento"))%></td></tr>
-                    <tr><th class="table-primary">Saldo</th><td><%= rs.getDouble("saldo")%>€</td></tr>
+                    <tr><th class="table-primary">Email</th><td><%= rs.getString("email")%>€</td></tr>
                             <%
                                 int rol = rs.getInt("Rol");
                                 String rolTexto = (rol == 1) ? "Administrador" : (rol == 2) ? "Gestor" : "Cliente";

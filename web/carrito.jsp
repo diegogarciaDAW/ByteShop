@@ -35,6 +35,7 @@
                     <%
                         String idDP = "";
                         int id = 0;
+                        boolean hayProductos = false;
                         Class.forName("com.mysql.jdbc.Driver");
                         Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteShop", "dam2", "1234");
                         Statement stmt2 = miConexion.createStatement();
@@ -57,6 +58,7 @@
                     </div>
                     <%
                     } else {
+                        hayProductos = true;
                         while (rs.next()) {
                             idDP = String.valueOf(rs.getInt("idPedido"));
                     %>
@@ -125,7 +127,9 @@
                         <form action="crearPago" method="post">
                             <input type="hidden" name="idPedido" value="<%= idDP%>">
                             <input type="hidden" name="total" value="<%= precioProductos + 16%>">
-                            <button type="submit" class="btn btn-success w-100 mt-3"> ✅ Pagar con Stripe</button>
+                            <button type="submit" class="btn btn-success w-100 mt-3" <%= hayProductos ? "" : "disabled"%>>
+                                ✅ Pagar con Stripe
+                            </button>
                         </form>
 
 

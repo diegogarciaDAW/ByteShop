@@ -29,7 +29,7 @@
         String apellido = request.getParameter("apellido");
         String direccion = request.getParameter("direccion");
         String fecha = request.getParameter("fechaNac");
-        Double saldo = Double.parseDouble(request.getParameter("saldo"));
+        String email = request.getParameter("email");
         String user = request.getParameter("user");
         String password = request.getParameter("password");
 
@@ -47,11 +47,11 @@
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop?useUnicode=true&characterEncoding=UTF-8", "root", "");
         
-        PreparedStatement stmt = miConexion.prepareStatement("INSERT INTO usuarios (Nombre, Apellido, FechadeNacimiento, saldo, direccion) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement stmt = miConexion.prepareStatement("INSERT INTO usuarios (Nombre, Apellido, FechadeNacimiento, email, direccion) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, nombre);
         stmt.setString(2, apellido);
         stmt.setString(3, fecha);
-        stmt.setDouble(4, saldo);
+        stmt.setString(4, email);
         stmt.setString(5, direccion);
         stmt.executeUpdate();
         
