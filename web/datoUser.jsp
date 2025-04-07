@@ -7,6 +7,7 @@
 <%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaLogin.jspf" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -52,7 +53,6 @@
                     <tr><th class="table-primary">Fecha de Nacimiento</th><td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("FechadeNacimiento"))%></td></tr>
                     <tr><th class="table-primary">Email</th><td><%= rs.getString("email")%></td></tr>
                             <%
-                                int rol = rs.getInt("Rol");
                                 String rolTexto = (rol == 1) ? "Administrador" : (rol == 2) ? "Gestor" : "Cliente";
                             %>
                     <tr><th class="table-primary">Rol</th><td><%= rolTexto%></td></tr>
