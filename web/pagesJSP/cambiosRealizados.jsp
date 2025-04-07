@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%
@@ -21,11 +22,10 @@
     }
 
     try {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteShop", "root", "");
+        Connection con = ConexionDB.getConnection();
         
         // Verificar si ya existe un usuario con el mismo nombre de usuario
-        PreparedStatement checkStmt = miConexion.prepareStatement(
+        PreparedStatement checkStmt = con.prepareStatement(
             "SELECT COUNT(*) FROM login WHERE user = ? AND info != ?"
         );
         checkStmt.setString(1, username);
@@ -44,7 +44,7 @@
                      + "SET u.Nombre = ?, u.Apellido = ?, u.direccion = ?, u.FechadeNacimiento = ?, "
                      + "l.user = ?, l.rol = ? WHERE u.id = ?";
 
-        PreparedStatement stmt = miConexion.prepareStatement(query);
+        PreparedStatement stmt = con.prepareStatement(query);
         stmt.setString(1, nombre);
         stmt.setString(2, apellido);
         stmt.setString(3, direccion);
@@ -64,7 +64,7 @@
         }
 
         stmt.close();
-        miConexion.close();
+        con.close();
     } catch (Exception e) {
         out.println("Error: " + e.getMessage());
     }

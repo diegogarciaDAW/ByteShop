@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/plain" pageEncoding="UTF-8"%>
 
@@ -16,11 +17,10 @@
         return;
     }
 
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteShop", "root", "");
+    Connection con = ConexionDB.getConnection();
 
     // Verificar si el usuario ya existe, ignorando si es el mismo usuario que se está editando
-    PreparedStatement stmt = miConexion.prepareStatement("SELECT user FROM login WHERE user = ?");
+    PreparedStatement stmt = con.prepareStatement("SELECT user FROM login WHERE user = ?");
     stmt.setString(1, username);
     ResultSet rs = stmt.executeQuery();
 
@@ -36,5 +36,5 @@
 
     rs.close();
     stmt.close();
-    miConexion.close();
+    con.close();
 %>

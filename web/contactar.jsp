@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.util.Properties"%>
 <%@page import="java.util.Base64"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -27,9 +28,8 @@
     <body>
         <%
             // Lógica para verificación del estado del login
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
-            Statement stmt = miConexion.createStatement();
+            Connection con = ConexionDB.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs1 = stmt.executeQuery("SELECT * FROM login WHERE idEstado=" + 1);
             if (rs1.next()) {%>
         <jsp:include page='assets/layout/header.jsp'/>

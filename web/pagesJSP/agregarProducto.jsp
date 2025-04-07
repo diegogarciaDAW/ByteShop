@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.net.URL" %>
@@ -51,12 +52,11 @@
 
             try {
                 // Establecer conexión con la base de datos
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
+                Connection con = ConexionDB.getConnection();
 
                 if (s1 == null || s1.isEmpty()) {
                     // Insertar nuevo producto
-                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO productos (Nombre, Descripcion, Precio, Categoria, CantidadDisponible, imagen) VALUES (?, ?, ?, ?, ?, ?)");
+                    PreparedStatement stmt = con.prepareStatement("INSERT INTO productos (Nombre, Descripcion, Precio, Categoria, CantidadDisponible, imagen) VALUES (?, ?, ?, ?, ?, ?)");
                     stmt.setString(1, nombre);
                     stmt.setString(2, descripcion);
                     stmt.setDouble(3, precio);
@@ -80,11 +80,11 @@
             PreparedStatement stmt;
             if (imageBytes != null) {
                 // Si hay una nueva imagen, actualizar la imagen también
-                stmt = conn.prepareStatement("UPDATE productos SET Nombre = ?, Descripcion = ?, Precio = ?, Categoria = ?, CantidadDisponible = ?, imagen = ? WHERE id = ?");
+                stmt = con.prepareStatement("UPDATE productos SET Nombre = ?, Descripcion = ?, Precio = ?, Categoria = ?, CantidadDisponible = ?, imagen = ? WHERE id = ?");
                 stmt.setBytes(6, imageBytes); // Nueva imagen
             } else {
                 // Si no se proporciona nueva imagen, mantener la imagen existente
-                stmt = conn.prepareStatement("UPDATE productos SET Nombre = ?, Descripcion = ?, Precio = ?, Categoria = ?, CantidadDisponible = ? WHERE id = ?");
+                stmt = con.prepareStatement("UPDATE productos SET Nombre = ?, Descripcion = ?, Precio = ?, Categoria = ?, CantidadDisponible = ? WHERE id = ?");
             }
             stmt.setString(1, nombre);
             stmt.setString(2, descripcion);
@@ -100,7 +100,7 @@
         </script>
         <%
             }
-            conn.close(); // Cerrar la conexión
+            con.close(); // Cerrar la conexión
         } catch (Exception e) {
             e.printStackTrace();
         %>

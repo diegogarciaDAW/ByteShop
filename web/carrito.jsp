@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.util.Base64"%>
@@ -11,6 +12,7 @@
 <%@page import="java.sql.*"%>
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaLogin.jspf" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,18 +34,16 @@
             <div class="row">
                 <!-- Sección de productos en el carrito -->
                 <div class="col-lg-8">
-                    <%
-                        String idDP = "";
+                    <%                        String idDP = "";
                         int id = 0;
                         boolean hayProductos = false;
-                        Class.forName("com.mysql.jdbc.Driver");
-                        Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteShop", "dam2", "1234");
-                        Statement stmt2 = miConexion.createStatement();
+                        Connection con = ConexionDB.getConnection();
+                        Statement stmt2 = con.createStatement();
                         ResultSet rs3 = stmt2.executeQuery("SELECT id FROM login WHERE idEstado=1");
 
                         if (rs3.next()) {
                             id = rs3.getInt("id");
-                            PreparedStatement statement = miConexion.prepareStatement(
+                            PreparedStatement statement = con.prepareStatement(
                                     "SELECT dp.*, pr.*, pe.fecha FROM detalle_pedido dp "
                                     + "INNER JOIN productos pr ON pr.id = dp.idProducto "
                                     + "INNER JOIN pedidos pe ON pe.CodigoPedido = dp.idPedido "
@@ -93,7 +93,7 @@
                         }
                         rs3.close();
                         stmt2.close();
-                        miConexion.close();
+                        con.close();
                     %>
 
                 </div>
@@ -103,7 +103,7 @@
                     <div class="card p-4 shadow-lg border-0">
                         <h4 class="text-center fw-bold">🧾 Resumen</h4>
                         <%
-                            Connection resumenConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteShop", "root", "");
+                            Connection resumenConexion = ConexionDB.getConnection();
                             PreparedStatement resumenStmt = resumenConexion.prepareStatement(
                                     "SELECT SUM(dp.cantidad * p.precio) AS total_general FROM productos p "
                                     + "JOIN detalle_pedido dp ON p.id = dp.idProducto "
@@ -131,15 +131,10 @@
                                 ✅ Pagar con Stripe
                             </button>
                         </form>
-
-
-
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Footer -->
         <footer class="py-3">
             <jsp:include page="assets/layout/footer.jsp"/>
         </footer>

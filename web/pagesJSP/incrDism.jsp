@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -11,8 +12,8 @@
     String s1 = request.getParameter("id");
     String[] opciones = s1.split("-");
 
-    Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
-    Statement statem = conexion.createStatement();
+    Connection con = ConexionDB.getConnection();
+    Statement statem = con.createStatement();
     ResultSet rs1 = statem.executeQuery("SELECT dp.cantidad,dp.idDetalle FROM pedidos pe "
             + "INNER JOIN login l on l.id=pe.id "
             + "INNER JOIN detalle_pedido dp on dp.idPedido=pe.CodigoPedido "
@@ -44,20 +45,18 @@
 
                 statem.executeUpdate("UPDATE `detalle_pedido` SET `cantidad` = '" + valor + "' WHERE `detalle_pedido`.`idDetalle` =" + id + ";");
                 response.sendRedirect("../carrito.jsp");
-                conexion.close();
+                con.close();
             }
         } else if (opciones[1].equalsIgnoreCase("I")) {
 
             valor++;
             statem.executeUpdate("UPDATE `detalle_pedido` SET `cantidad` = '" + valor + "' WHERE `detalle_pedido`.`idDetalle` =" + id + ";");
             response.sendRedirect("../carrito.jsp");
-            conexion.close();
+            con.close();
 
         }
 
     } else {
         out.println("ok");
     }
-
-
 %>

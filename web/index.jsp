@@ -4,14 +4,24 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
+<%@page import="java.sql.*"%>
+
 <%@page import="java.sql.*"%>
 
 <%
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
+    String usuario = (String) session.getAttribute("usuario");
 
-    Statement stmt = miConexion.createStatement();
+    if (usuario != null) {
+        Connection con = ConexionDB.getConnection();
 
-    stmt.executeUpdate("UPDATE login SET idEstado = 0 WHERE idEstado=1");
+        PreparedStatement stmt = con.prepareStatement("UPDATE login SET idEstado = 0 WHERE user = ?");
+        stmt.setString(1, usuario);
+        stmt.executeUpdate();
+
+        con.close();
+    }
+
+    session.invalidate();
     response.sendRedirect("index.html");
 %>

@@ -4,8 +4,10 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaAdmin.jspf" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -18,20 +20,15 @@
         <link rel="stylesheet" href="assets/css/usuariosAB.css"/>
     </head>
     <body>
-
-        <!-- ENCABEZADO DE LA PAGINA WEB -->
         <jsp:include page="assets/layout/header.jsp"/>
 
         <div class="containerUser">
 
-            <!-- Contenedor para el título y el botón "+" -->
             <div class="header-container">
                 <h1>Gestión de Usuarios</h1>
-                <!-- Botón de creación de cuenta -->
                 <a href="crearCuenta.jsp?id=al" class="cta" title="Crear nueva cuenta">+</a>
             </div>
 
-            <!-- Tabla de usuarios -->
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -46,9 +43,8 @@
                     <tbody>
                         <%
                             try {
-                                Class.forName("com.mysql.jdbc.Driver");
-                                Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
-                                Statement stmt = miConexion.createStatement();
+                                Connection con = ConexionDB.getConnection();
+                                Statement stmt = con.createStatement();
                                 ResultSet rs1 = stmt.executeQuery("SELECT id, user, idAB FROM login");
 
                                 while (rs1.next()) {

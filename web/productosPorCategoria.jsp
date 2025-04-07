@@ -4,15 +4,16 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.util.Base64"%>
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaLogin.jspf" %>
 
-<%
-    // Detectamos si la solicitud es AJAX
+<%    // Detectamos si la solicitud es AJAX
     boolean isAjax = "true".equals(request.getParameter("ajax"));
     String searchQuery = request.getParameter("search");
 
@@ -28,8 +29,8 @@
     ResultSet rs = null;
 
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
+        // Usamos ConexionDB para obtener la conexión
+        conn = ConexionDB.getConnection();
         stmt = conn.prepareStatement(query);
 
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
@@ -100,7 +101,7 @@
                 </div>
                 <%
                         }
-                    } catch (SQLException | ClassNotFoundException ex) {
+                    } catch (SQLException ex) {
                         out.println("<div class='alert alert-danger'>Error: " + ex.getMessage() + "</div>");
                     } finally {
                         if (rs != null) {
@@ -128,4 +129,3 @@
 <%
     } // Cierre de verificación AJAX
 %>
-

@@ -4,11 +4,12 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
-    Statement statem = conexion.createStatement();
+    Connection con = ConexionDB.getConnection();
+    Statement statem = con.createStatement();
     String id = request.getParameter("id");
 
     // Eliminar el producto de la base de datos

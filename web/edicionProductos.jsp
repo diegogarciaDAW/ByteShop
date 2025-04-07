@@ -4,8 +4,10 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.util.Base64"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaAdmin.jspf" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -27,12 +29,13 @@
             </div>
 
             <%@ page import="java.sql.*" %>
-            <% Class.forName("com.mysql.jdbc.Driver");
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop?useUnicode=true&characterEncoding=UTF-8", "root", "");
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT imagen, id, Nombre, Descripcion, Precio, nombreCategoria FROM productos, categoria WHERE Productos.categoria = Categoria.categoria;");
-                String categoria = "";
-                try {
+            <%                try {
+                    // Usamos ConexionDB para obtener la conexión
+                    Connection conn = ConexionDB.getConnection();
+
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT imagen, id, Nombre, Descripcion, Precio, nombreCategoria FROM productos, categoria WHERE Productos.categoria = Categoria.categoria;");
+                    String categoria = "";
                     while (rs.next()) {
                         Blob b = rs.getBlob("imagen");
                         byte[] bdata = b.getBytes(1, (int) b.length());
@@ -40,23 +43,23 @@
                         if (!rs.getString("nombreCategoria").equals(categoria)) {
                             categoria = rs.getString("nombreCategoria");
             %>
-            <h2 class="mt-5 text-secondary"><%=rs.getString("nombreCategoria")%></h2>
+            <h2 class="mt-5 text-secondary"><%= rs.getString("nombreCategoria")%></h2>
             <div class="row">
                 <% }
                 %>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <img src='data:image/png;base64,<%=imageBase64%>' class="card-img-top img-fluid" alt="Imagen del producto">
+                        <img src='data:image/png;base64,<%= imageBase64%>' class="card-img-top img-fluid" alt="Imagen del producto">
                         <div class="card-body">
                             <h5 class="card-title"><%= new String(rs.getString("Nombre").getBytes("ISO-8859-1"), "UTF-8")%></h5>
                             <p class="card-text"><%= new String(rs.getString("Descripcion").getBytes("ISO-8859-1"), "UTF-8")%></p>
 
                             <p class="text-danger fw-bold">Precio: <%= rs.getDouble("Precio")%>€</p>
                             <div class="d-flex justify-content-between">
-                                <button id="<%=rs.getInt("id")%>-E" class="btn btn-outline-warning d-flex align-items-center">
+                                <button id="<%= rs.getInt("id")%>-E" class="btn btn-outline-warning d-flex align-items-center">
                                     <i class="fas fa-edit me-2"></i> Editar
                                 </button>
-                                <button id="<%=rs.getInt("id")%>-D" class="btn btn-outline-danger d-flex align-items-center">
+                                <button id="<%= rs.getInt("id")%>-D" class="btn btn-outline-danger d-flex align-items-center">
                                     <i class="fas fa-trash-alt me-2"></i> Eliminar
                                 </button>
                             </div>
@@ -65,10 +68,13 @@
                 </div>
                 <% } %>
             </div>
-            <% } catch (Exception e) {
+            <%
+                } catch (Exception e) {
                     e.printStackTrace();
-                }%>
+                }
+            %>
         </div>
         <jsp:include page="assets/layout/footer.jsp"/>
     </body>
 </html>
+

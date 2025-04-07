@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.security.MessageDigest"%>
 <%@page import="java.security.NoSuchAlgorithmException"%>
@@ -55,32 +56,33 @@
                 }
                 String contraseñaEncriptada = hexString.toString();
 
-                // Establecer la conexión con la base de datos
-                Connection miConexion = null;
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
+                // Usamos ConexionDB para obtener la conexión
+                Connection con = ConexionDB.getConnection();
 
-                    // Realizar la consulta para obtener el rol, estado e idAB del usuario
-                    PreparedStatement stmt = miConexion.prepareStatement("SELECT Rol, idEstado, idAB FROM login WHERE user = ? AND passwd = ?");
-                    stmt.setString(1, usuario);
-                    stmt.setString(2, contraseñaEncriptada);  // Comparar con la contraseña encriptada
-                    ResultSet rs = stmt.executeQuery();
+                // Realizar la consulta para obtener el rol, estado e idAB del usuario
+                PreparedStatement stmt = con.prepareStatement("SELECT Rol, idEstado, idAB FROM login WHERE user = ? AND passwd = ?");
+                stmt.setString(1, usuario);
+                stmt.setString(2, contraseñaEncriptada);  // Comparar con la contraseña encriptada
+                ResultSet rs = stmt.executeQuery();
 
-                    if (rs.next()) {
-                        // Si el usuario tiene idAB(Alta/Baja) = 1 (activo), actualizar el estado a 1,es decir, esta conectado y redirigir a la página de inicio
-                        if (rs.getInt("idAB") == 1) {
-                            PreparedStatement stmtUpdate = miConexion.prepareStatement("UPDATE login SET idEstado = 1 WHERE user = ? AND passwd = ?");
-                            stmtUpdate.setString(1, usuario);
-                            stmtUpdate.setString(2, contraseñaEncriptada); // Usar la contraseña encriptada aquí también
-                            stmtUpdate.executeUpdate();
+                if (rs.next()) {
+                    // Si el usuario tiene idAB(Alta/Baja) = 1 (activo), actualizar el estado a 1, es decir, esta conectado
+                    if (rs.getInt("idAB") == 1) {
+                        PreparedStatement stmtUpdate = con.prepareStatement("UPDATE login SET idEstado = 1 WHERE user = ? AND passwd = ?");
+                        stmtUpdate.setString(1, usuario);
+                        stmtUpdate.setString(2, contraseñaEncriptada); // Usar la contraseña encriptada aquí también
+                        stmtUpdate.executeUpdate();
+
+                        // Crear sesión de usuario
+                        HttpSession sesion = request.getSession();
+                        sesion.setAttribute("usuario", usuario);
+                        sesion.setAttribute("rol", rs.getInt("Rol"));
         %>
         <script>
             setTimeout(function () {
                 window.location.href = "../inicio.jsp";
             }, 2000);
         </script>
-
         <%
         } else {
         %>
@@ -89,7 +91,6 @@
                 window.location.href = "../login.jsp?valido=false";
             }, 2000);
         </script>
-
         <%
             }
         } else {
@@ -99,24 +100,23 @@
                 window.location.href = "../login.jsp?valido=false";
             }, 2000);
         </script>
-
         <%
-                    }
-                } catch (SQLException | ClassNotFoundException e) {
-                    // Si se produce una excepción al conectar con la base de datos, imprimir la información de la excepción
-                    out.println(e.getLocalizedMessage());
-                    e.printStackTrace();
-                } finally {
-                    // Cerrar la conexión con la base de datos
-                    if (miConexion != null) {
-                        try {
-                            miConexion.close();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                }
+
+                // Cerrar la conexión con la base de datos
+                if (con != null) {
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                 }
+
             } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                // Si se produce una excepción al conectar con la base de datos, imprimir la información de la excepción
+                out.println(e.getLocalizedMessage());
                 e.printStackTrace();
             }
         %>

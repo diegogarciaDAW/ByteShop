@@ -4,19 +4,20 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.sql.*"%>
+<%@ include file="security/verificaAdmin.jspf" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Editar Información</title>
-
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/5c9ae03052.js" crossorigin="anonymous"></script>
-
         <link rel="stylesheet" href="assets/css/cambiarInfo.css"/>
+        <script src="assets/js/cambiarInfo.js"></script>
     </head>
     <body>
         <jsp:include page="assets/layout/header.jsp"/>
@@ -26,10 +27,9 @@
                 <h2 class="text-center mb-4">Editar Información</h2>
                 <%
                     String id = request.getParameter("id").trim();
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteShop", "root", "");
+                    Connection con = ConexionDB.getConnection();
 
-                    PreparedStatement stmt = miConexion.prepareStatement(
+                    PreparedStatement stmt = con.prepareStatement(
                             "SELECT u.*, l.id as login_id, l.user, l.info as usuario_id, l.rol "
                             + "FROM usuarios u "
                             + "INNER JOIN login l ON l.info = u.id "
@@ -93,14 +93,12 @@
                     }
                     rs1.close();
                     stmt.close();
-                    miConexion.close();
+                    con.close();
                 %>
             </div>
         </div>
 
         <jsp:include page="/assets/layout/footer.jsp"/>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="assets/js/cambiarInfo.js"></script> <!-- Archivo JS separado -->
     </body>
 </html>

@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -47,8 +48,7 @@
 
             try {
                 // Conectar a la base de datos
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
+                Connection con = ConexionDB.getConnection();
 
                 // Verificar stock y actualizarlo
                 String queryStock = "SELECT pr.id, pr.CantidadDisponible, dp.cantidad "

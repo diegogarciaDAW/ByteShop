@@ -20,7 +20,7 @@ public class PagoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Configurar la clave secreta de Stripe
-        Stripe.apiKey = "sk_test_51R9nJU06WYalpRKDlMD5gCoqKjkmCMAD9KbE8Q7PJAKPV5ocEojiTrgjN1YcRYwAOrnsCdconUh0KpHWBNiKKwPQ00VLFYAapV";
+        Stripe.apiKey = "sk_test_51R9nJJ04vrmoid6J6CFRkfSTKLpYposj1ay17VHujjYX6Ezg4jyk47BhbzzqidcHpd7P2okk789ZSbJcPbCrnBwi00I2gH3ffj";
 
         // Obtener los parámetros de la solicitud
         String successUrl = "http://localhost:8080/Entrega2_ByteShop/pagesJSP/enviarPedido.jsp";

@@ -4,17 +4,15 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 
 <%
-    Class.forName(
-            "com.mysql.jdbc.Driver");
-    Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
-
-    Statement stmt = miConexion.createStatement();
+    Connection con = ConexionDB.getConnection();
+    Statement stmt = con.createStatement();
 
     String st = request.getParameter("id");
     String[] division = st.split("-");

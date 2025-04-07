@@ -4,14 +4,15 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.sql.*"%>
 <%
 
     String idBoton = request.getParameter("id");
     LocalDate d1 = LocalDate.now();
-    Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
-    Statement statem = conexion.createStatement();
+    Connection con = ConexionDB.getConnection();
+    Statement statem = con.createStatement();
     ResultSet idResult = statem.executeQuery("SELECT login.id FROM login WHERE idEstado=1");
     //Este metodo es  para sacar el id de aquella persona que esta conectada 
     if (idResult.next()) {

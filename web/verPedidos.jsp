@@ -4,8 +4,10 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaLogin.jspf" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,8 +16,6 @@
         <title>📦 Pedidos Realizados</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Iconos Bootstrap -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     </head>
     <body class="d-flex flex-column min-vh-100 bg-light">
@@ -26,13 +26,14 @@
         <div class="container my-4 flex-grow-1">
             <h2 class="text-center mb-4 text-primary fw-bold text-black">📦 Pedidos Realizados</h2>
 
-            <%
+            <%                // Cambié la conexión aquí, usando la clase ConexionDB
                 Connection miConexion = null;
                 PreparedStatement stmt = null;
                 ResultSet rs = null;
 
                 try {
-                    miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
+                    // Usando ConexionDB para obtener la conexión
+                    miConexion = ConexionDB.getConnection();
                     String query = "SELECT pe.CodigoPedido, pe.fecha, ep.Descripcion as estado_pedido "
                             + "FROM pedidos pe "
                             + "JOIN estadopedido ep ON ep.idEstadoPedido = pe.estado "
@@ -61,6 +62,7 @@
                             <th>Estado</th>
                             <th>Fecha</th>
                             <th>Productos</th>
+                            <th>Descargar Factura</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,13 +109,21 @@
                                             try (ResultSet rst = statem.executeQuery()) {
                                                 while (rst.next()) {
                                     %>
-                                    <li>✅ <strong><%= rst.getInt("cantidad")%>x</strong> <%= rst.getString("Nombre")%></li>
+                                    <li>✅ <strong><%= rst.getInt("cantidad")%>x</strong> <%= new String(rst.getString("Nombre").getBytes("ISO-8859-1"), "UTF-8")%></li>
                                         <%
                                                     }
                                                 }
                                             }
                                         %>
                                 </ul>
+                            </td>
+                            <td class="align-middle">
+                                <form action="generarFactura.jsp" method="post" target="_blank">
+                                    <input type="hidden" name="codigoPedido" value="<%= rs.getInt("CodigoPedido")%>">
+                                    <button class="btn btn-outline-primary" type="submit">
+                                        📄 Descargar
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         <%
@@ -147,3 +157,4 @@
 
     </body>
 </html>
+

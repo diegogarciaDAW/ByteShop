@@ -4,8 +4,11 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaGestor.jspf" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -24,13 +27,13 @@
 
             <%
                 boolean rsut = false;
-                Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
+                Connection con = ConexionDB.getConnection();
                 String query = "SELECT pe.*, ep.Descripcion as estado_pedido, c.nombre, c.apellido "
                         + "FROM pedidos pe "
                         + "JOIN estadopedido ep ON ep.idEstadoPedido = pe.estado "
                         + "JOIN usuarios c ON pe.id = c.id "
                         + "WHERE pe.estado != 4";
-                Statement stmt = miConexion.createStatement();
+                Statement stmt = con.createStatement();
                 ResultSet result = stmt.executeQuery("SELECT * FROM login WHERE idEstado = 1");
                 if (result.next() && result.getInt("Rol") == 2) {
                     rsut = true;
@@ -66,8 +69,8 @@
                             <td class="text-center"><%= rs.getDate("fecha")%></td>
                             <td>
                                 <%
-                                    Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
-                                    Statement statem = conexion.createStatement();
+                                    
+                                    Statement statem = con.createStatement();
                                     ResultSet rst = statem.executeQuery("SELECT p.Nombre, dp.cantidad FROM productos p JOIN detalle_pedido dp ON dp.idProducto = p.id WHERE idPedido=" + rs.getInt("CodigoPedido"));
                                     while (rst.next()) {
                                         out.print("<b>" + rst.getInt("cantidad") + "x</b> " + rst.getString("Nombre") + "<br>");

@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.security.MessageDigest"%>
 <%@page import="java.security.NoSuchAlgorithmException"%>
@@ -44,10 +45,9 @@
         }
         String passwordEncriptada = hexString.toString();
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop?useUnicode=true&characterEncoding=UTF-8", "root", "");
+        Connection con = ConexionDB.getConnection();
         
-        PreparedStatement stmt = miConexion.prepareStatement("INSERT INTO usuarios (Nombre, Apellido, FechadeNacimiento, email, direccion) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement stmt = con.prepareStatement("INSERT INTO usuarios (Nombre, Apellido, FechadeNacimiento, email, direccion) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, nombre);
         stmt.setString(2, apellido);
         stmt.setString(3, fecha);
@@ -58,7 +58,7 @@
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs.next()) {
             int id = rs.getInt(1);
-            PreparedStatement stmtLogin = miConexion.prepareStatement("INSERT INTO login (user, passwd, info, Rol, idEstado, idAB) VALUES (?, ?, ?, 3, 1, 1)");
+            PreparedStatement stmtLogin = con.prepareStatement("INSERT INTO login (user, passwd, info, Rol, idEstado, idAB) VALUES (?, ?, ?, 3, 1, 1)");
             stmtLogin.setString(1, user);
             stmtLogin.setString(2, passwordEncriptada);
             stmtLogin.setInt(3, id);

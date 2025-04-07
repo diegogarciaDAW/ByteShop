@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,9 +15,8 @@
     String[] divididoBoton = idBoton.split("-");
 
     try {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "dam2", "1234");
-        Statement stmt = miConexion.createStatement();
+        Connection con = ConexionDB.getConnection();
+        Statement stmt = con.createStatement();
 
         if (divididoBoton[1].equals("A")) {
             stmt.executeUpdate("UPDATE `login` SET `idAB` = '1' WHERE `login`.id = " + Integer.parseInt(divididoBoton[0]));

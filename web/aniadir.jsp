@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page import="img.MostrarImagen"%>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -30,8 +31,8 @@
 
                 if (isEdit) {
                     try {
-                        Class.forName("com.mysql.cj.jdbc.Driver");
-                        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop?useUnicode=true&characterEncoding=UTF-8", "root", "");
+                        // Usamos ConexionDB para obtener la conexión
+                        Connection conn = ConexionDB.getConnection();
                         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM productos WHERE id = ?");
                         stmt.setInt(1, Integer.parseInt(s1));
                         ResultSet rs = stmt.executeQuery();
@@ -96,7 +97,6 @@
                     <% }%>
                     <input type="text" class="form-control" name="imagen" placeholder="URL de imagen (opcional)">
                 </div>
-
 
                 <div class="mb-3">
                     <label for="categoria" class="form-label">Categoría:</label>

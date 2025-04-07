@@ -4,15 +4,16 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.util.Base64"%>
 <%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ include file="security/verificaLogin.jspf" %>
 
-<%
-    // Verificamos si la solicitud es AJAX
+<%    // Verificamos si la solicitud es AJAX
     boolean isAjax = "true".equals(request.getParameter("ajax"));
     String searchQuery = request.getParameter("search");
 
@@ -29,8 +30,8 @@
     ResultSet rs = null;
 
     try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
+        // Usamos ConexionDB para obtener la conexión
+        conn = ConexionDB.getConnection();
         stmt = conn.prepareStatement(query);
 
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
@@ -89,7 +90,7 @@
                             <p class="card-text"><%= new String(rs.getString("Descripcion").getBytes("ISO-8859-1"), "UTF-8")%></p>
                             <p class="text-danger text-center"><b>Precio:</b> <%= rs.getDouble("Precio")%>€</p>
                             <button class="btn btn-primary w-100 mt-auto add-to-cart" data-id="<%= rs.getInt("id")%>" 
-                                <%= hayStock ? "" : "disabled"%>>
+                                    <%= hayStock ? "" : "disabled"%>>
                                 <i class="fa-solid fa-cart-shopping"></i> 
                                 <%= hayStock ? "Agregar" : "Sin stock"%>
                             </button>
@@ -98,7 +99,7 @@
                 </div>
                 <%
                         }
-                    } catch (SQLException | ClassNotFoundException ex) {
+                    } catch (SQLException ex) {
                         out.println("<div class='alert alert-danger'>Error: " + ex.getMessage() + "</div>");
                     } finally {
                         if (rs != null) {

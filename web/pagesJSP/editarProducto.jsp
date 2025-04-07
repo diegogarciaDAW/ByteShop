@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,8 +26,8 @@
                         if (elString[1].equalsIgnoreCase("E")) {
                             response.sendRedirect("../aniadir.jsp?id=" + elString[0]);
                         } else if (elString[1].equalsIgnoreCase("D")) {
-                            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
-                            Statement stmt = conn.createStatement();
+                            Connection con = ConexionDB.getConnection();
+                            Statement stmt = con.createStatement();
                             stmt.executeUpdate("DELETE FROM detalle_pedido WHERE idProducto= " + Integer.parseInt(elString[0]));
                             stmt.executeUpdate("DELETE FROM productos WHERE id= " + Integer.parseInt(elString[0]));
                     %>
@@ -38,7 +39,7 @@
                             window.location.href = "../edicionProductos.jsp";
                         }, 3000);
                     </script>
-                    <% } %>
+                    <% }%>
                 </div>
             </div>
         </div>

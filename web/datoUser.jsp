@@ -4,6 +4,7 @@
     Author     : diego
 --%>
 
+<%@page import="utils.ConexionDB"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -38,9 +39,8 @@
                                     + "WHERE login.id = " + Integer.parseInt(st) + " LIMIT 1";
                         }
 
-                        Class.forName("com.mysql.cj.jdbc.Driver");
-                        Connection miConexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/byteshop", "root", "");
-                        Statement stmt = miConexion.createStatement();
+                        Connection con = ConexionDB.getConnection();
+                        Statement stmt = con.createStatement();
                         ResultSet rs = stmt.executeQuery(query);
 
                         if (rs.next()) {
