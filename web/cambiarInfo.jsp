@@ -14,7 +14,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Editar Información</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Asegúrate de tener esto -->
         <script src="https://kit.fontawesome.com/5c9ae03052.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="assets/css/cambiarInfo.css"/>
         <script src="assets/js/cambiarInfo.js"></script>
@@ -25,8 +25,7 @@
         <div class="containerUser">
             <div class="card">
                 <h2 class="text-center mb-4">Editar Información</h2>
-                <%
-                    String id = request.getParameter("id").trim();
+                <%                    String id = request.getParameter("id").trim();
                     Connection con = ConexionDB.getConnection();
 
                     PreparedStatement stmt = con.prepareStatement(
@@ -56,28 +55,33 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Nombre</label>
-                            <input type="text" name="nombre" class="form-control" value="<%=rs1.getString("Nombre")%>" required>
+                            <input type="text" id="nombre" name="nombre" class="form-control" value="<%=rs1.getString("Nombre")%>" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Apellido</label>
-                            <input type="text" name="apellido" class="form-control" value="<%=rs1.getString("Apellido")%>" required>
+                            <input type="text" id="apellido" name="apellido" class="form-control" value="<%=rs1.getString("Apellido")%>" required>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" class="form-control" value="<%=rs1.getString("email")%>" required>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Dirección</label>
-                            <input type="text" name="direccion" class="form-control" value="<%=rs1.getString("direccion")%>" required>
+                            <input type="text" id="direccion" name="direccion" class="form-control" value="<%=rs1.getString("direccion")%>" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Fecha de Nacimiento</label>
-                            <input type="date" name="fechaNac" class="form-control" value="<%=rs1.getDate("FechadeNacimiento")%>" required>
+                            <input type="date" id="fechaNac" name="fechaNac" class="form-control" value="<%=rs1.getDate("FechadeNacimiento")%>" required>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Rol</label>
-                        <select name="spinner" class="form-select">
+                        <select id="rol" name="spinner" class="form-select">
                             <option value="1" <%= (rolActual == 1) ? "selected" : ""%>>Administrador</option>
                             <option value="2" <%= (rolActual == 2) ? "selected" : ""%>>Gestor</option>
                             <option value="3" <%= (rolActual == 3) ? "selected" : ""%>>Cliente</option>

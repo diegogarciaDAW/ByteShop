@@ -14,6 +14,7 @@
     String direccion = request.getParameter("direccion");
     String fechaNac = request.getParameter("fechaNac");
     String username = request.getParameter("username"); // Obtener el nombre de usuario
+    String email = request.getParameter("email"); // Obtener el nombre de usuario
     String rol = request.getParameter("spinner");
 
     if (username == null || username.trim().isEmpty()) {
@@ -23,10 +24,10 @@
 
     try {
         Connection con = ConexionDB.getConnection();
-        
+
         // Verificar si ya existe un usuario con el mismo nombre de usuario
         PreparedStatement checkStmt = con.prepareStatement(
-            "SELECT COUNT(*) FROM login WHERE user = ? AND info != ?"
+                "SELECT COUNT(*) FROM login WHERE user = ? AND info != ?"
         );
         checkStmt.setString(1, username);
         checkStmt.setInt(2, Integer.parseInt(id));
@@ -41,17 +42,18 @@
 
         // Si el nombre de usuario es válido, proceder con la actualización
         String query = "UPDATE usuarios u INNER JOIN login l ON l.info = u.id "
-                     + "SET u.Nombre = ?, u.Apellido = ?, u.direccion = ?, u.FechadeNacimiento = ?, "
-                     + "l.user = ?, l.rol = ? WHERE u.id = ?";
+                + "SET u.Nombre = ?, u.Apellido = ?, u.email = ?, u.direccion = ?, u.FechadeNacimiento = ?, "
+                + "l.user = ?, l.rol = ? WHERE u.id = ?";
 
         PreparedStatement stmt = con.prepareStatement(query);
         stmt.setString(1, nombre);
         stmt.setString(2, apellido);
-        stmt.setString(3, direccion);
-        stmt.setDate(4, Date.valueOf(fechaNac));
-        stmt.setString(5, username); // Aquí estamos pasando el nombre de usuario actualizado
-        stmt.setInt(6, Integer.parseInt(rol));
-        stmt.setInt(7, Integer.parseInt(id));
+        stmt.setString(3, email);
+        stmt.setString(4, direccion);
+        stmt.setDate(5, Date.valueOf(fechaNac));
+        stmt.setString(6, username);
+        stmt.setInt(7, Integer.parseInt(rol));
+        stmt.setInt(8, Integer.parseInt(id));
 
         int rowsUpdated = stmt.executeUpdate();
         if (rowsUpdated > 0) {

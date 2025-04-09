@@ -5,6 +5,7 @@
 --%>
 
 <%@page import="java.sql.*"%>
+<%@page import="send.EmailSender"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -89,6 +90,41 @@
                     updatePedido.close();
 
                     if (filasActualizadas > 0) {
+                        // OBTENER CORREO Y NOMBRE DEL USUARIO PARA ENVIAR EL CORREO
+                        String nombreUsuario = "";
+                        String correoUsuario = "";
+                        PreparedStatement datosUsuarioStmt = miConexion.prepareStatement(
+                                "SELECT u.Nombre, u.email FROM usuarios u "
+                                + "JOIN pedidos p ON u.id = p.id "
+                                + "WHERE p.CodigoPedido = ?"
+                        );
+                        datosUsuarioStmt.setInt(1, id);
+                        ResultSet rsUsuario = datosUsuarioStmt.executeQuery();
+                        if (rsUsuario.next()) {
+                            nombreUsuario = rsUsuario.getString("Nombre");
+                            correoUsuario = rsUsuario.getString("email");
+                        }
+                        rsUsuario.close();
+                        datosUsuarioStmt.close();
+
+                        // Enviar correo si se encontró el correo
+                        if (!correoUsuario.isEmpty()) {
+                            String subject = "📦 Tu pedido #" + id + " está siendo preparado";
+                            String mensajeEstado = "📦 ¡Tu pedido está en proceso!\n\n"
+                                    + "Estimado/a " + nombreUsuario + ",\n\n"
+                                    + "Nos complace informarte que tu pedido con código #" + id + " ha sido procesado y saldrá pronto de nuestros almacenes.\n"
+                                    + "📅 Estimamos que estará en camino en un plazo de 15 días hábiles.\n\n"
+                                    + "Puedes hacer seguimiento desde tu cuenta en nuestra tienda.\n\n"
+                                    + "Gracias por comprar con nosotros.\n\n"
+                                    + "Saludos cordiales,\n"
+                                    + "El equipo de Atención al Cliente";
+
+                            try {
+                                send.EmailSender.sendEmail(correoUsuario, subject, mensajeEstado);
+                            } catch (Exception e) {
+                                e.printStackTrace(); // Puedes loguear o guardar el error si quieres
+                            }
+                        }
         %>
         <script>
             console.log("Pedido procesado correctamente. Redirigiendo...");
@@ -101,6 +137,7 @@
                         out.print("<script>alert('Error al actualizar estado del pedido.'); window.location.href = '../productos.jsp';</script>");
                     }
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 out.print("<script>alert('Error interno.'); window.location.href = '../productos.jsp';</script>");

@@ -12,7 +12,7 @@ public class Correos {
 
     // Cambia estos valores con tus credenciales de Gmail
     private String usuario = "byteshopdaw2@gmail.com"; // Correo desde el que se enviarán los mensajes
-    private String contrasena = "qcsy rexl tmcj mpla"; // Clave de aplicación generada en Gmail
+    private String contrasena = "kcgt mcmh gemr hzdz"; // Clave de aplicación generada en Gmail
 
     // Método para enviar un correo
     public void enviarCorreo(String nombre, String destinatario, String asunto) {
