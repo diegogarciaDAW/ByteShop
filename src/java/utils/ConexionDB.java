@@ -12,8 +12,7 @@ public class ConexionDB {
 
     static {
         try {
-            Class.forName("com.mysql.jdbc.Driver"); // para MySQL 5.x
-            // Class.forName("com.mysql.cj.jdbc.Driver"); // si usas MySQL 8+
+            Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
         }
     }

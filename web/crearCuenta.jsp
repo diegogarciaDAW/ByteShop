@@ -72,6 +72,9 @@
                     <button type="submit" class="btn btn-custom" id="registerButton" disabled>
                         <i class="fas fa-user-plus"></i> Registrar
                     </button>
+                    <% if (request.getParameter("id") != null) {%>
+                    <input type="hidden" name="id" value="<%= request.getParameter("id")%>">
+                    <% }%>
                 </form>
             </div>
         </div>
