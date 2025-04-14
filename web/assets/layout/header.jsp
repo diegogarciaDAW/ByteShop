@@ -34,7 +34,6 @@
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="inicio.jsp">INICIO</a></li>
-                        <li class="nav-item"><a class="nav-link" href="productosPorCategoria.jsp">CATEGORÍAS</a></li>
                         <li class="nav-item"><a class="nav-link" href="productos.jsp">PRODUCTOS</a></li>
 
                         <%
@@ -44,12 +43,15 @@
 
                                     if (rol == 1) {
                                         out.println("<li class='nav-item'><a class='nav-link' href='edicionProductos.jsp'>EDITAR PRODUCTOS</a></li>");
+                                        out.println("<li class='nav-item'><a class='nav-link' href='aniadirCategoria.jsp'>AÑADIR CATEGORÍA</a></li>");
                                         out.println("<li class='nav-item'><a class='nav-link' href='usuariosAltaBaja.jsp'>USUARIOS</a></li>");
                                     } else if (rol == 2) {
                                         out.println("<li class='nav-item'><a class='nav-link' href='verPedidosTodos.jsp'>ESTADO TODOS LOS PEDIDOS</a></li>");
+                                    } else if (rol == 3) {
+                                        out.println("<li class='nav-item'><a class='nav-link' href='loMasVendido'>LO + VENDIDO</a></li>");
                                     }
 
-                                    out.println("<li class='nav-item'><a class='nav-link' href='verPedidos.jsp'>MIS PEDIDOS</a></li>");
+                                    out.println("<li class='nav-item'><a class='nav-link' href='verPedidos'>MIS PEDIDOS</a></li>");
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

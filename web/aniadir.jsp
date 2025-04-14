@@ -101,13 +101,30 @@
                 <div class="mb-3">
                     <label for="categoria" class="form-label">Categoría:</label>
                     <select class="form-control" name="categoria" required>
-                        <option value="1" <%= categoriaId == 1 ? "selected" : ""%>>Componentes</option>
-                        <option value="2" <%= categoriaId == 2 ? "selected" : ""%>>Ordenadores</option>
-                        <option value="3" <%= categoriaId == 3 ? "selected" : ""%>>Smartphones</option>
-                        <option value="4" <%= categoriaId == 4 ? "selected" : ""%>>Audio, foto y video</option>
-                        <option value="5" <%= categoriaId == 5 ? "selected" : ""%>>Sonido</option>
+                        <%
+                            try {
+                                Connection conn = ConexionDB.getConnection();
+                                PreparedStatement stmt = conn.prepareStatement("SELECT Categoria, nombreCategoria FROM categoria");
+                                ResultSet rs = stmt.executeQuery();
+                                while (rs.next()) {
+                                    int catId = rs.getInt("Categoria");
+                                    String catNombre = rs.getString("nombreCategoria");
+                                    String selected = (catId == categoriaId) ? "selected" : "";
+                        %>
+                        <option value="<%= catId%>" <%= selected%>><%= catNombre%></option>
+                        <%
+                            }
+                            conn.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        %>
+                        <option disabled>Error al cargar categorías</option>
+                        <%
+                            }
+                        %>
                     </select>
                 </div>
+
 
                 <button type="submit" class="btn btn-primary w-100">
                     <%= isEdit ? "Actualizar Producto" : "Añadir Producto"%>

@@ -35,13 +35,13 @@
                             <a class="nav-link" href="index.html">INICIO</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">CATEGORIAS</a>
+                            <a class="nav-link" href="#">LO + VENDIDO</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">PRODUCTOS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">CONTACTO</a>
+                            <a class="nav-link" href="contactar.jsp">CONTACTO</a>
                         </li>
                     </ul>
                 </div>

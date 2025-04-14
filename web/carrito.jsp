@@ -74,7 +74,9 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title fw-bold"><%= rs.getString("pr.Nombre")%></h5>
+                                    <h5 class="card-title fw-bold">
+                                        <%= new String(rs.getString("pr.Nombre").getBytes("ISO-8859-1"), "UTF-8")%>
+                                    </h5>
                                     <p class="card-text">Precio: <span class="fw-bold text-success"><%= rs.getDouble("pr.Precio")%> €</span></p>
                                     <div class="input-group w-50">
                                         <button class="btn btn-outline-danger btn-actualizar" data-url="pagesJSP/incrDism.jsp?id=<%= rs.getInt("pr.id")%>-D">-</button>

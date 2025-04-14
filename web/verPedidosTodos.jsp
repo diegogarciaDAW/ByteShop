@@ -108,6 +108,7 @@
             </div>
             <% }%>
         </div>
+
         <jsp:include page="assets/layout/footer.jsp"/>
     </body>
 </html>

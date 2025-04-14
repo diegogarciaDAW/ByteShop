@@ -1,0 +1,7 @@
+<%
+    Integer rol = (Integer) session.getAttribute("rol");
+    if (rol == null || rol != 3) {
+        response.sendRedirect(request.getContextPath() + "/accesoDenegado.jsp");
+        return;
+    }
+%>

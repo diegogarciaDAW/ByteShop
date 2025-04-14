@@ -8,6 +8,7 @@
 <%@page import="java.util.Base64"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="security/verificaAdmin.jspf" %>
+<%@ page import="java.sql.*" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,7 +29,7 @@
                 </a>
             </div>
 
-            <%@ page import="java.sql.*" %>
+
             <%                try {
                     // Usamos ConexionDB para obtener la conexión
                     Connection conn = ConexionDB.getConnection();
