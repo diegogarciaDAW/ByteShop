@@ -78,7 +78,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="pagesJSP/modificarDatos.jsp?id=<%= userId%>-V" class="btn btn-info btn-custom">
+                                <a href="DatoUsuarioServlet?id=<%= userId%>" class="btn btn-info btn-custom">
                                     <i class="fa fa-eye icon-btn"></i>Ver
                                 </a>
                             </td>

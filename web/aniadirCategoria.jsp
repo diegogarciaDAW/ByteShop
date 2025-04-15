@@ -57,7 +57,6 @@
                             <table class="table table-hover m-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>ID</th>
                                         <th>Nombre</th>
                                         <th class="text-end">Acciones</th>
                                     </tr>
@@ -66,7 +65,6 @@
                                     <% if (categorias != null && !categorias.isEmpty()) {
                                             for (Categoria c : categorias) {%>
                                     <tr>
-                                        <td><%= c.getId()%></td>
                                         <td><%= c.getNombre()%></td>
                                         <td class="text-end">
                                             <a href="CategoriaServlet?action=edit&id=<%= c.getId()%>" class="btn btn-sm btn-warning">

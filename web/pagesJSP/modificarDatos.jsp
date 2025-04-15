@@ -41,8 +41,6 @@
             }
             response.sendRedirect(request.getHeader("Referer"));  // Redirige a la página anterior
 
-        } else if (divididoBoton[1].equals("V")) {
-            response.sendRedirect("../datoUser.jsp?id=" + divididoBoton[0]);  // Redirige a la página de ver usuario
         }
 
     } catch (Exception e) {
