@@ -1,24 +1,14 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const deleteModal = document.getElementById('confirmDeleteModal');
-    if (deleteModal) {
-        deleteModal.addEventListener('show.bs.modal', function (event) {
+document.addEventListener("DOMContentLoaded", () => {
+    const eliminarModal = document.getElementById('confirmarEliminarModal');
+    if (eliminarModal) {
+        eliminarModal.addEventListener('show.bs.modal', event => {
             const button = event.relatedTarget;
-            const id = button.getAttribute('data-id');
-            const nombre = button.getAttribute('data-nombre');
-
-            const inputId = deleteModal.querySelector('#categoryId');
-            const spanNombre = deleteModal.querySelector('#categoryName');
-
-            inputId.value = id;
-            spanNombre.textContent = nombre;
+            const categoriaId = button.getAttribute('data-id');
+            console.log('ID de la categoría:', categoriaId);
+            const confirmBtn = document.getElementById('btnConfirmarEliminar');
+            if (confirmBtn && categoriaId) {
+                confirmBtn.href = `CategoriaServlet?action=delete&id=${categoriaId}`;
+            }
         });
     }
-
-    // Mostrar automáticamente el modal de mensaje si existe
-    const mensajeModal = document.getElementById('mensajeModal');
-    if (mensajeModal) {
-        const modal = new bootstrap.Modal(mensajeModal);
-        modal.show();
-    }
 });
-F

@@ -43,7 +43,7 @@
 
                                     if (rol == 1) {
                                         out.println("<li class='nav-item'><a class='nav-link' href='edicionProductos.jsp'>EDITAR PRODUCTOS</a></li>");
-                                        out.println("<li class='nav-item'><a class='nav-link' href='aniadirCategoria.jsp'>AÑADIR CATEGORÍA</a></li>");
+                                        out.println("<li class='nav-item'><a class='nav-link' href='CategoriaServlet'>AÑADIR CATEGORÍA</a></li>");
                                         out.println("<li class='nav-item'><a class='nav-link' href='usuariosAltaBaja.jsp'>USUARIOS</a></li>");
                                     } else if (rol == 2) {
                                         out.println("<li class='nav-item'><a class='nav-link' href='verPedidosTodos.jsp'>ESTADO TODOS LOS PEDIDOS</a></li>");
@@ -65,7 +65,7 @@
                         try (Connection con = ConexionDB.getConnection()) {
                             String user = UserSessionHelper.getActiveUsername(con);
                             if (user != null) {
-                                out.println("<a href='datoUser.jsp' class='nav-link text-dark'><span class='material-icons'>person</span> " + user + "</a>");
+                                out.println("<a href='DatoUsuarioServlet' class='nav-link text-dark'><span class='material-icons'>person</span> " + user + "</a>");
                             } else {
                                 response.sendRedirect("login.jsp");
                             }

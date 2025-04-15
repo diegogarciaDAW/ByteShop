@@ -4,74 +4,89 @@
     Author     : diego
 --%>
 
-<%@page import="utils.ConexionDB"%>
-<%@page import="java.sql.*"%>
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="security/verificaAdmin.jspf" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entities.Categoria" %>
 
-<%    
-    String idEditar = request.getParameter("idEditar");
-    String nombreEditar = request.getParameter("nombreEditar");
-    String mensaje = request.getParameter("mensaje");
-    String tipo = request.getParameter("tipo"); // "success" o "error"
+<%
+    request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
+
+    List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
+    Categoria categoriaEditar = (Categoria) request.getAttribute("categoriaEditar");
+
+    String mensaje = (String) request.getAttribute("mensaje");
+    if (mensaje == null) {
+        mensaje = request.getParameter("mensaje");
+    }
 %>
+
 
 <!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
         <title>Gestión de Categorías</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body class="d-flex flex-column min-vh-100">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    </head>
+    <body>
         <jsp:include page="assets/layout/header.jsp"/>
 
-        <main class="container py-5 flex-grow-1">
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Gestión de Categorías</h2>
+
+            <% if (mensaje != null) {%>
+            <div class="alert alert-info alert-dismissible fade show text-center" role="alert">
+                <%= mensaje%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+            <% } %>
+
             <div class="row">
-                <!-- Tabla de Categorías -->
-                <div class="col-md-7 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary text-white">Categorías Existentes</div>
-                        <div class="card-body">
-                            <table class="table table-hover table-bordered">
+                <!-- Tabla -->
+                <div class="col-md-7 mb-5">
+                    <div class="card shadow-sm rounded-3">
+                        <div class="card-header bg-primary text-white">
+                            Categorías existentes
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-hover m-0">
                                 <thead class="table-light">
                                     <tr>
+                                        <th>ID</th>
                                         <th>Nombre</th>
-                                        <th>Acciones</th>
+                                        <th class="text-end">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%
-                                        try {
-                                            Connection con = ConexionDB.getConnection();
-                                            String sql = "SELECT * FROM categoria ORDER BY Categoria ASC";
-                                            PreparedStatement ps = con.prepareStatement(sql);
-                                            ResultSet rs = ps.executeQuery();
-
-                                            while (rs.next()) {
-                                                String nombre = rs.getString("nombreCategoria");
-                                                int idCategoria = rs.getInt("Categoria");
-                                    %>
+                                    <% if (categorias != null && !categorias.isEmpty()) {
+                                            for (Categoria c : categorias) {%>
                                     <tr>
-                                        <td><%= nombre%></td>
-                                        <td>
-                                            <a href="aniadirCategoria.jsp?idEditar=<%= idCategoria%>&nombreEditar=<%= java.net.URLEncoder.encode(nombre, "UTF-8")%>" class="btn btn-sm btn-warning me-1">Editar</a>
-                                            <button type="button" class="btn btn-sm btn-danger me-1" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="<%= idCategoria%>" data-nombre="<%= nombre%>">
-                                                Eliminar
+                                        <td><%= c.getId()%></td>
+                                        <td><%= c.getNombre()%></td>
+                                        <td class="text-end">
+                                            <a href="CategoriaServlet?action=edit&id=<%= c.getId()%>" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <!-- Botón que lanza el modal -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#confirmarEliminarModal"
+                                                    data-id="<%= c.getId()%>">
+                                                <i class="fas fa-trash"></i> Eliminar
                                             </button>
+
                                         </td>
                                     </tr>
-                                    <%
-                                        }
-                                        rs.close();
-                                        ps.close();
-                                        con.close();
-                                    } catch (Exception e) {
-                                    %>
+                                    <%  }
+                                    } else { %>
                                     <tr>
-                                        <td colspan="2" class="text-danger text-center">Error: <%= e.getMessage()%></td>
+                                        <td colspan="3" class="text-center">No hay categorías registradas</td>
                                     </tr>
                                     <% }%>
                                 </tbody>
@@ -80,78 +95,59 @@
                     </div>
                 </div>
 
-                <!-- Formulario de Añadir/Editar -->
-                <div class="col-md-5">
-                    <div class="card shadow-sm">
+                <!-- Formulario -->
+                <div class="col-md-5 mt-4 mt-md-0">
+                    <div class="card shadow-sm rounded-3">
+                        <div class="card-header <%= categoriaEditar != null ? "bg-warning" : "bg-success"%> text-white">
+                            <%= categoriaEditar != null ? "Editar Categoría" : "Añadir Categoría"%>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title text-center mb-4">
-                                <%= (idEditar != null) ? "Editar Categoría" : "Añadir Nueva Categoría"%>
-                            </h5>
-                            <form action="<%= (idEditar != null) ? "pagesJSP/editarCategoria.jsp" : "pagesJSP/procesarCategoria.jsp"%>" method="post">
-                                <% if (idEditar != null) {%>
-                                <input type="hidden" name="idCategoria" value="<%= idEditar%>">
-                                <% }%>
+                            <form action="CategoriaServlet" method="post" accept-charset="UTF-8">
                                 <div class="mb-3">
-                                    <label class="form-label">Nombre de la Categoría</label>
-                                    <input type="text" name="nombreCategoria" class="form-control" maxlength="20" required
-                                           value="<%= (nombreEditar != null) ? nombreEditar : ""%>">
+                                    <label for="nombre" class="form-label">Nombre de categoría</label>
+                                    <input type="text" class="form-control" name="nombre" id="nombre"
+                                           value="<%= categoriaEditar != null ? categoriaEditar.getNombre() : ""%>" required>
                                 </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn <%= (idEditar != null) ? "btn-warning" : "btn-primary"%>">
-                                        <%= (idEditar != null) ? "Actualizar" : "Agregar"%>
-                                    </button>
-                                </div>
+                                <% if (categoriaEditar != null) {%>
+                                <input type="hidden" name="id" value="<%= categoriaEditar.getId()%>">
+                                <input type="hidden" name="action" value="update">
+                                <button type="submit" class="btn btn-warning w-100">
+                                    <i class="fas fa-save"></i> Guardar Cambios
+                                </button>
+                                <% } else { %>
+                                <input type="hidden" name="action" value="add">
+                                <button type="submit" class="btn btn-success w-100">
+                                    <i class="fas fa-plus"></i> Añadir Categoría
+                                </button>
+                                <% }%>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <!-- Modal de Confirmación de Eliminación -->
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <!-- Modal -->
+        <div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmación de Eliminación</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmar eliminación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body text-center">
-                        ¿Estás seguro de que deseas eliminar la categoría "<span id="categoryName"></span>"?
+                    <div class="modal-body">
+                        ¿Estás seguro de que deseas eliminar esta categoría?
                     </div>
                     <div class="modal-footer">
-                        <form id="deleteForm" action="pagesJSP/eliminarCategoria.jsp" method="get">
-                            <input type="hidden" name="idCategoria" id="categoryId" value="">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
+                        <a id="btnConfirmarEliminar" href="#" class="btn btn-danger">Eliminar</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal de mensaje -->
-        <% if (mensaje != null && tipo != null) {%>
-        <div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                     <div class="modal-header <%=tipo.equals("success") ? "bg-success text-white"
-                            : tipo.equals("error") ? "bg-danger text-white" : "bg-secondary text-white"%>">
-                        <h5 class="modal-title" id="mensajeModalLabel">Información</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <%= mensaje%>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Aceptar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <% }%>
 
-        <script src="assets/js/confirmDelete.js"></script>
         <jsp:include page="assets/layout/footer.jsp"/>
+        <script src="assets/js/confirmDelete.js"></script>
     </body>
 </html>
