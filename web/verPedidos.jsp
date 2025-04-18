@@ -4,6 +4,12 @@
     Author     : diego
 --%>
 
+<%-- 
+    Document   : VerPedidos
+    Created on : 24 mar 2025, 23:27:59
+    Author     : diego
+--%>
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="entities.Pedido" %>
@@ -16,10 +22,13 @@
         <title>📦 Pedidos Realizados</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     </head>
-    <body class="bg-light">
+    <body class="d-flex flex-column min-vh-100 bg-light">
+
+        <!-- Incluimos el header -->
         <jsp:include page="assets/layout/header.jsp"/>
 
-        <div class="container my-4">
+        <!-- Contenedor principal para los pedidos -->
+        <div class="container my-4 flex-grow-1">
             <h2 class="text-center mb-4 text-primary fw-bold">📦 Pedidos Realizados</h2>
 
             <%        List<Pedido> pedidos = (List<Pedido>) request.getAttribute("pedidos");
@@ -92,8 +101,8 @@
             <% }%>
         </div>
 
+        <!-- Incluimos el footer -->
         <jsp:include page="assets/layout/footer.jsp"/>
+
     </body>
 </html>
-
-

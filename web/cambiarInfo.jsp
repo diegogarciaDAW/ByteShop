@@ -55,11 +55,11 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Nombre</label>
-                            <input type="text" id="nombre" name="nombre" class="form-control" value="<%=rs1.getString("Nombre")%>" required>
+                            <input type="text" id="nombre" name="nombre" class="form-control" value="<%= new String(rs1.getString("Nombre").getBytes("ISO-8859-1"), "UTF-8")%>" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Apellido</label>
-                            <input type="text" id="apellido" name="apellido" class="form-control" value="<%=rs1.getString("Apellido")%>" required>
+                            <input type="text" id="apellido" name="apellido" class="form-control" value="<%= new String(rs1.getString("Apellido").getBytes("ISO-8859-1"), "UTF-8") %>" required>
                         </div>
                     </div>
 
@@ -71,7 +71,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Dirección</label>
-                            <input type="text" id="direccion" name="direccion" class="form-control" value="<%=rs1.getString("direccion")%>" required>
+                            <input type="text" id="direccion" name="direccion" class="form-control" value="<%= new String(rs1.getString("direccion").getBytes("ISO-8859-1"), "UTF-8") %>" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Fecha de Nacimiento</label>
