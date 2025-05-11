@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inicio</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="assets/css/index.css"/>
+    </head>
+    <body>
+
+        <header class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="assets/img/logo.png" alt="logo" height="50">
+                </a>
+                <!-- Botón de hamburguesa para pantallas pequeñas -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Menú que se despliega en pantallas pequeñas -->
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">INICIO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">LO + VENDIDO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">PRODUCTOS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contactar.jsp">CONTACTO</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Icono de inicio de sesión en la parte derecha -->
+                <a href="login.jsp" class="ms-auto text-dark">
+                    <span class="material-icons">person</span>
+                </a>
+            </div>
+        </header>
+        <!-- Agregar los estilos y scripts de Bootstrap -->
+
+
+        <!-- Slider con Bootstrap -->
+        <div class="slider-container">
+            <div id="sliderBootstrap" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicadores (puntos debajo del slider) -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#sliderBootstrap" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#sliderBootstrap" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#sliderBootstrap" data-bs-slide-to="2"></button>
+                    <button type="button" data-bs-target="#sliderBootstrap" data-bs-slide-to="3"></button>
+                    <button type="button" data-bs-target="#sliderBootstrap" data-bs-slide-to="4"></button>
+                </div>
+
+                <!-- Contenido del Slider -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="assets/img/camaras.jpg" class="d-block w-100" alt="camara">
+                        <div class="carousel-caption">
+                            <h2>Foto y Video</h2>
+                            <p>Captura cada momento con claridad y detalle gracias a nuestras cámaras de alta calidad.</p>
+                            <a href="login.jsp">LOG</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/img/componentes.jpg" class="d-block w-100" alt="componentes">
+                        <div class="carousel-caption">
+                            <h2>Componentes</h2>
+                            <p>Construye y mejora tu ordenador a medida con nuestros componentes de alta calidad.</p>
+                            <a href="login.jsp">LOG</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/img/ordenador.jpg" class="d-block w-100" alt="Ordenadores">
+                        <div class="carousel-caption">
+                            <h2>Ordenadores</h2>
+                            <p>Potencia tu productividad y disfruta de un rendimiento óptimo con nuestros ordenadores ya montados.</p>
+                            <a href="login.jsp">LOG</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/img/moviles.jpg" class="d-block w-100" alt="moviles">
+                        <div class="carousel-caption">
+                            <h2>Smartphones</h2>
+                            <p>Transforma tu forma de conectarte con el mundo a través de nuestros Smartphones de vanguardia.</p>
+                            <a href="login.jsp">LOG</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/img/sonido.jpg" class="d-block w-100" alt="Sonido">
+                        <div class="carousel-caption">
+                            <h2>Sonido</h2>
+                            <p>Eleva tu experiencia auditiva con nuestros dispositivos de sonido de alta calidad.</p>
+                            <a href="login.jsp">LOG</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de navegación -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#sliderBootstrap" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#sliderBootstrap" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-light py-4 mt-auto">
+            <div class="container">
+                <div class="row text-center text-md-start">
+                    <!-- Sección de contacto -->
+                    <div class="col-md-4 mb-3">
+                        <h5>Contacto</h5>
+                        <a href="contactar.jsp" class="btn btn-dark btn-sm">Contáctanos</a>
+                    </div>
+
+                    <!-- Sección de información -->
+                    <div class="col-md-4 mb-3">
+                        <h5>Sobre Nosotros</h5>
+                        <p class="text-muted small">
+                            Ofrecemos productos de informática de calidad a precios competitivos y brindamos asesoría de expertos para garantizar la satisfacción del cliente.
+                        </p>
+                    </div>
+
+                    <!-- Sección de redes sociales -->
+                    <div class="col-md-4 mb-3">
+                        <h5>Síguenos</h5>
+                        <div class="d-flex justify-content-center justify-content-md-start">
+                            <a href="https://www.instagram.com/" class="btn btn-outline-dark btn-sm me-2 social-icon">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://github.com/" class="btn btn-outline-dark btn-sm me-2 social-icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <!-- Cambié el tercer icono de 'fa-blog' a 'fa-twitter' -->
+                            <a href="https://twitter.com/" class="btn btn-outline-dark btn-sm me-2 social-icon">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.youtube.com/" class="btn btn-outline-dark btn-sm social-icon">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Línea separadora -->
+                <hr class="my-3">
+
+                <!-- Derechos de autor -->
+                <div class="text-center text-muted small">
+                    &copy; 2025 <b>Byte-Shop</b> - Todos los Derechos Reservados
+                </div>
+            </div>
+        </footer>
+        <!-- Cargar FontAwesome desde CDN -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    </body>
+</html>

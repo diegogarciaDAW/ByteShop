@@ -1,0 +1,59 @@
+#web1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 40px 0;
+}
+
+.register-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
+
+.register-container h1 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn-custom {
+    background-color: #ff4e00;
+    color: white;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-custom:hover {
+    background-color: #e04500;
+}
+
+.availability-message {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.unavailable-message {
+    color: red;
+}
+
+.available-message {
+    color: green;
+}
+
+.btn-custom i {
+    margin-right: 8px;
+}

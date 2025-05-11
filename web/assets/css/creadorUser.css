@@ -1,0 +1,36 @@
+main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.loader {
+    display: block;
+    position: relative;
+    height: 32px;
+    width: 200px;
+    background: #fff;
+    border: 2px solid #fff;
+    color: rgb(223, 60, 60);
+    overflow: hidden;
+}
+.loader::before {
+    content: '';
+    background: rgb(223, 60, 60);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    animation: loading_302 5s linear infinite;
+}
+@keyframes loading_302 {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
